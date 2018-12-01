@@ -10,8 +10,10 @@
         android:id="@+id/textView"
         android:layout_width="381dp"
         android:layout_height="66dp"
-        android:text="        Instructions"
+        android:text="Instructions"
+        android:textAlignment="center"
         android:textSize="40sp"
+        android:textStyle="bold"
         tools:layout_editor_absoluteX="2dp"
         tools:layout_editor_absoluteY="5dp" />
 

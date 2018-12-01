@@ -14,7 +14,8 @@
         android:layout_height="129dp"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="               HangMan"
+        android:text="HangMan"
+        android:textAlignment="center"
         android:textSize="30sp"
         tools:layout_editor_absoluteX="7dp"
         tools:layout_editor_absoluteY="16dp" />
