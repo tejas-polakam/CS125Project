@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomePage">
+
+    <TextView
+        android:id="@+id/HangMan"
+        android:layout_width="381dp"
+        android:layout_height="66dp"
+        android:text="HangMan"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        tools:layout_editor_absoluteX="2dp"
+        tools:layout_editor_absoluteY="41dp" />
+
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="188dp" />
+
+    <Button
+        android:id="@+id/Rules"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="How To"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="148dp"
+        tools:layout_editor_absoluteY="281dp" />
+
+    <Button
+        android:id="@+id/ScoreBoard"
+        android:layout_width="127dp"
+        android:layout_height="wrap_content"
+        android:text="ScoreBoard"
+        android:textAlignment="center"
+        tools:layout_editor_absoluteX="129dp"
+        tools:layout_editor_absoluteY="368dp" />
+
+    <TextView
+        android:id="@+id/Copyright"
+        android:layout_width="359dp"
+        android:layout_height="20dp"
+        android:text="By Tejas Polakam and Colby Huang CopyRight 2018"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="530dp" />
+
+</android.support.constraint.ConstraintLayout>
