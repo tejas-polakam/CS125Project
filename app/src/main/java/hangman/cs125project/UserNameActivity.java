@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.*;
 
 public class UserNameActivity extends AppCompatActivity {
-    private String[] usernameArray;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

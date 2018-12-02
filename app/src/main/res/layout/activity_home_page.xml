@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,45 +10,61 @@
         android:id="@+id/HangMan"
         android:layout_width="381dp"
         android:layout_height="66dp"
+        android:layout_marginBottom="81dp"
         android:text="HangMan"
         android:textAlignment="center"
         android:textSize="40sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="2dp"
-        tools:layout_editor_absoluteY="41dp" />
+        app:layout_constraintBottom_toTopOf="@+id/startButton"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="2dp" />
 
     <Button
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="81dp"
         android:text="Start"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="188dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/HangMan" />
 
     <Button
         android:id="@+id/Rules"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginBottom="39dp"
         android:text="How To"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="148dp"
-        tools:layout_editor_absoluteY="281dp" />
+        app:layout_constraintBottom_toTopOf="@+id/ScoreBoard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startButton" />
 
     <Button
         android:id="@+id/ScoreBoard"
         android:layout_width="127dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="129dp"
+        android:layout_marginTop="39dp"
         android:text="ScoreBoard"
         android:textAlignment="center"
-        tools:layout_editor_absoluteX="129dp"
-        tools:layout_editor_absoluteY="368dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Rules" />
 
     <TextView
         android:id="@+id/Copyright"
         android:layout_width="359dp"
         android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="155dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="17dp"
         android:text="By Tejas Polakam and Colby Huang CopyRight 2018"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="530dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ScoreBoard" />
 
 </android.support.constraint.ConstraintLayout>

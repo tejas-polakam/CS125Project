@@ -2,7 +2,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="hangman.cs125project">
 
-    <uses-feature android:name="android.hardware.type.watch" />
 
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -20,19 +19,13 @@
         android:theme="@style/AppTheme">
         <activity android:name=".InstructionsActivity" />
 
-        <uses-library
-            android:name="com.google.android.wearable"
-            android:required="true" />
         <!--
                Set to true if your app is Standalone, that is, it does not require the handheld
                app to run.
         -->
-        <meta-data
-            android:name="com.google.android.wearable.standalone"
-            android:value="true" />
 
         <activity
-            android:name=".UserNameInput"
+            android:name=".UserNameActivity"
             android:label="@string/title_activity_user_name_input">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +33,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UserNameActivity" />
         <activity android:name=".ScrollingScoreBoard" />
         <activity
             android:name=".HomePage"
