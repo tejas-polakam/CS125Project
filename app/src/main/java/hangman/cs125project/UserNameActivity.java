@@ -18,6 +18,8 @@ public class UserNameActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //insert code here to store username in a list
+                EditText text = (EditText) findViewById(R.id.UsernameInput);
+                String newUser = text.getText().toString();
 
                 startActivity(new Intent(UserNameActivity.this, InstructionsActivity.class));
                 //replace Instructions activity with actual game frame
