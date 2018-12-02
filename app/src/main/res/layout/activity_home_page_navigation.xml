@@ -18,7 +18,7 @@
         app:menu="@menu/navigation" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/start_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -34,8 +34,8 @@
         android:layout_marginTop="8dp"
         android:text="High Scores"
         android:textAllCaps="true"
-        app:layout_constraintStart_toStartOf="@+id/button"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintStart_toStartOf="@+id/start_button"
+        app:layout_constraintTop_toBottomOf="@+id/start_button" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline2"

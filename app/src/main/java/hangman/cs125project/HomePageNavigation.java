@@ -45,6 +45,15 @@ public class HomePageNavigation extends AppCompatActivity {
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        //Show sign-in page.
+        Button startButton = findViewById(R.id.start_button);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomePageNavigation.this, LoginActivity.class));
+            }
+        });
+        //Show high scores.
         Button showScores = findViewById(R.id.scores_button);
         showScores.setOnClickListener(new View.OnClickListener() {
             @Override
