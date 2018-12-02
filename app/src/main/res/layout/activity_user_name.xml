@@ -16,10 +16,13 @@
             android:id="@+id/UsernameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Username" />
+            android:hint="Username"
+            android:imeOptions="actionDone"
+            android:ems="10"
+            android:inputType="textPersonName"/>
     </android.support.design.widget.TextInputLayout>
 
-    <TextView
+    <EditText
         android:id="@+id/inputUsername"
         android:layout_width="367dp"
         android:layout_height="81dp"

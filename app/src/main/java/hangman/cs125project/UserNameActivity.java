@@ -18,6 +18,8 @@ public class UserNameActivity extends AppCompatActivity {
         submitUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //insert code here to store username in a list
+
                 startActivity(new Intent(UserNameActivity.this, InstructionsActivity.class));
                 //replace Instructions activity with actual game frame
             }
