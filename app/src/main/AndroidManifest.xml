@@ -25,7 +25,7 @@
 
         <activity
             android:name=".HomePage"
-            android:label="HomePage">
+            android:label="Hangman">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
