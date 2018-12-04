@@ -27,6 +27,7 @@ public class UserNameActivity extends AppCompatActivity {
                 count++;
                 name = nameInput.getText().toString();
                 list.add(name);
+                //figure out shared preferences api
                 startActivity(new Intent(UserNameActivity.this, InstructionsActivity.class)); //replace Instructions activity with actual game frame
 
             }
