@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="letters">
+        <item><string>a</string></item>
+        <item><string>b</string></item>
+        <item><string>c</string></item>
+        <item><string>d</string></item>
+        <item><string>e</string></item>
+        <item><string>f</string></item>
+        <item><string>g</string></item>
+        <item><string>h</string></item>
+        <item><string>i</string></item>
+        <item><string>j</string></item>
+        <item><string>k</string></item>
+        <item><string>l</string></item>
+        <item><string>m</string></item>
+        <item><string>n</string></item>
+        <item><string>o</string></item>
+        <item><string>p</string></item>
+        <item><string>q</string></item>
+        <item><string>r</string></item>
+        <item><string>s</string></item>
+        <item><string>t</string></item>
+        <item><string>u</string></item>
+        <item><string>v</string></item>
+        <item><string>w</string></item>
+        <item><string>x</string></item>
+        <item><string>y</string></item>
+        <item><string>z</string></item>
+    </array>
+</resources>
