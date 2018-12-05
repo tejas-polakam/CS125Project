@@ -9,13 +9,14 @@
     tools:context=".Game">
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/wordDisp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="H _ N G M _ N"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:typeface="monospace"
         app:layout_constraintEnd_toEndOf="@+id/animation_goes_here"
         app:layout_constraintStart_toStartOf="@+id/animation_goes_here"
         app:layout_constraintTop_toBottomOf="@+id/animation_goes_here" />
@@ -70,7 +71,7 @@
         android:minWidth="92dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintTop_toBottomOf="@+id/wordDisp" />
 
     <EditText
         android:id="@+id/wordInput"
@@ -115,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/giveUp" />
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/wrongLetterList"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -131,9 +132,22 @@
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         android:textColor="@android:color/holo_red_dark"
-        android:textSize="10sp"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="@+id/wordInput"
         app:layout_constraintStart_toStartOf="@+id/wordInput"
         app:layout_constraintTop_toBottomOf="@+id/wordInput" />
+
+    <TextView
+        android:id="@+id/letterError"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="16dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner"
+        app:layout_constraintTop_toTopOf="@+id/spinner" />
 
 </android.support.constraint.ConstraintLayout>

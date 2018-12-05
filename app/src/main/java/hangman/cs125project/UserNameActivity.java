@@ -29,11 +29,15 @@ public class UserNameActivity extends AppCompatActivity {
             public void onClick(View v) {
                 count++;
                 name = nameInput.getText().toString();
-                list.add(name);
-                Log.d(TAG, "new username " + name);
-                //figure out shared preferences api
-                startActivity(new Intent(UserNameActivity.this, Game.class)); //replace Instructions activity with actual game frame
-
+                if (validateName(name)) {
+                    list.add(name);
+                    Log.d(TAG, "new username " + name);
+                    //figure out shared preferences api
+                    startActivity(new Intent(UserNameActivity.this, Game.class)); //replace Instructions activity with actual game frame
+                } else {
+                    TextView error = findViewById(R.id.errormsg);
+                    error.setText("Please enter a valid username");
+                }
             }
         });
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +51,8 @@ public class UserNameActivity extends AppCompatActivity {
         });
 
     }
-
+    private boolean validateName(String name) {
+        return (name.length() > 0);
+    }
 
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="letters">
+        <item><string> </string></item>
         <item><string>a</string></item>
         <item><string>b</string></item>
         <item><string>c</string></item>

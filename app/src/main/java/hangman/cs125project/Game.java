@@ -10,6 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import org.w3c.dom.Text;
+
 import java.util.List;
 import java.util.ArrayList;
 
@@ -23,7 +26,10 @@ public class Game extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         final String hiddenWord = setGameWord();
+        final TextView wordDisplay = findViewById(R.id.wordDisp);
         final List<String> wrongGuesses = new ArrayList<>();
+        final List<String> correctGuesses = new ArrayList<>();
+        wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
 
         //Operations when user tries to guess the whole word.
         Button wordSubmit = findViewById(R.id.wordButton);
@@ -51,13 +57,22 @@ public class Game extends AppCompatActivity {
             public void onClick(View v) {
                 Spinner spinner = findViewById(R.id.spinner);
                 String letter = spinner.getSelectedItem().toString();
-                if (!hiddenWord.contains(letter) && !wrongGuesses.contains(letter)) {
-                    Snackbar.make(v, "Sorry! The word doesn't have that letter.", Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                TextView errorTxt = findViewById(R.id.letterError);
+                TextView wrongLetters = findViewById(R.id.wrongLetterList);
+                if (letter.equals(" ")) {
+                    errorTxt.setText("Pick a letter.");
+                }  else if (!hiddenWord.contains(letter) && !wrongGuesses.contains(letter)) {
+                    errorTxt.setText("Sorry! The word doesn't have that letter.");
                     wrongGuesses.add(letter);
+                    wrongLetters.setText(wrongGuesses.toString());
                 } else if (wrongGuesses.contains(letter)) {
-                    Snackbar.make(v, "You already tried " + letter, Snackbar.LENGTH_LONG).setAction("Action",null).show();
+                    errorTxt.setText("You already tried letter " + letter + ".");
+                } else if (correctGuesses.contains(letter)) {
+                    errorTxt.setText("Pick a different letter");
                 } else {
-                    Log.d(TAG, "yup");
+                    errorTxt.setText("");
+                    correctGuesses.add(letter);
+                    wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
                 }
             }
         });
@@ -95,6 +110,22 @@ public class Game extends AppCompatActivity {
     }
     //function that picks a random word for the game
     private String setGameWord() {
-        return "csonetwentyfive";
+        return "hangman";
     }
+
+    //function that turns a word into _ o r d
+    private String getCurrentDisplayedWord(String word, List<String> correctGuesses) {
+        String newWord = "";
+        for (int i = 0; i < word.length(); i++) {
+            String letter = String.valueOf(word.charAt(i));
+            if (correctGuesses.contains(letter)) {
+                newWord += letter + " ";
+            } else {
+                newWord += "_ ";
+            }
+        }
+        Log.d(TAG, "new display: " + newWord);
+        return newWord;
+    }
+    //TODO: add logic to detect a win/loss, add logic to change image, add proper word picker
 }
