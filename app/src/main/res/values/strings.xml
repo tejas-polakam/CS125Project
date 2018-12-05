@@ -115,4 +115,5 @@
     </string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_start_page">StartPage</string>
+    <string name="title_activity_movietest">movietest</string>
 </resources>
