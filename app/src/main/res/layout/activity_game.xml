@@ -21,7 +21,7 @@
         app:layout_constraintTop_toBottomOf="@+id/animation_goes_here" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/wordButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -29,10 +29,11 @@
         android:text="Word"
         android:textColor="#10AA10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/wordInput"
+        />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/letterSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -40,37 +41,39 @@
         android:text="Letter"
         android:textColor="#1010FF"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+        app:layout_constraintTop_toBottomOf="@+id/wordInput" />
 
     <Button
-        android:id="@+id/button6"
+        android:id="@+id/giveUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:text="give up"
         android:textColor="@android:color/holo_red_dark"
-        app:layout_constraintBottom_toBottomOf="@+id/button5"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toTopOf="@+id/button4"
+        app:layout_constraintBottom_toBottomOf="@+id/letterSubmit"
+        app:layout_constraintEnd_toStartOf="@+id/letterSubmit"
+        app:layout_constraintStart_toEndOf="@+id/wordButton"
+        app:layout_constraintTop_toTopOf="@+id/wordButton"
         app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="22dp"
         android:entries="@array/letters"
+        android:foregroundTint="@android:color/holo_blue_dark"
+        android:foregroundTintMode="src_over"
         android:minWidth="92dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/wordInput"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
@@ -106,10 +109,10 @@
         android:text="Wrong letters:"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/button5"
+        app:layout_constraintEnd_toEndOf="@+id/letterSubmit"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintStart_toStartOf="@+id/wordButton"
+        app:layout_constraintTop_toBottomOf="@+id/giveUp" />
 
     <TextView
         android:id="@+id/textView8"
@@ -120,5 +123,17 @@
         app:layout_constraintEnd_toEndOf="@+id/textView7"
         app:layout_constraintStart_toStartOf="@+id/textView7"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <TextView
+        android:id="@+id/Errortext"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="10sp"
+        app:layout_constraintEnd_toEndOf="@+id/wordInput"
+        app:layout_constraintStart_toStartOf="@+id/wordInput"
+        app:layout_constraintTop_toBottomOf="@+id/wordInput" />
 
 </android.support.constraint.ConstraintLayout>
