@@ -31,6 +31,14 @@ public class Game extends AppCompatActivity {
         final List<String> correctGuesses = new ArrayList<>();
         wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
 
+        //Find username from intent (see UserNameActivity)
+        String username = "default";
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            username = extras.getString("currentUsername");
+        }
+        Log.d(TAG, "User: " + username);
+
         //Operations when user tries to guess the whole word.
         Button wordSubmit = findViewById(R.id.wordButton);
         wordSubmit.setOnClickListener(new View.OnClickListener() {

@@ -11,10 +11,10 @@ import java.util.*;
 public class UserNameActivity extends AppCompatActivity {
     EditText nameInput;
     String name;
-    ListView display;
-    List<String> list;
+    //ListView display;
+    //List<String> list;
     int count;
-    private static final String TAG = "CS125:Main";
+    private static final String TAG = "Main";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,17 +23,21 @@ public class UserNameActivity extends AppCompatActivity {
         final Button submitUsername = findViewById(R.id.submit);
         final Button backButton = findViewById(R.id.backButtonUser);
         //final ListView
-        list = new ArrayList<>();
+        //list = new ArrayList<>();
         submitUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 count++;
                 name = nameInput.getText().toString();
                 if (validateName(name)) {
-                    list.add(name);
                     Log.d(TAG, "new username " + name);
+
                     //figure out shared preferences api
-                    startActivity(new Intent(UserNameActivity.this, Game.class)); //replace Instructions activity with actual game frame
+
+                    //pass the name on to the next class
+                    Intent game = new Intent(UserNameActivity.this, Game.class);
+                    game.putExtra("currentUsername", name);
+                    startActivity(game);
                 } else {
                     TextView error = findViewById(R.id.errormsg);
                     error.setText("Please enter a valid username");
@@ -49,10 +53,9 @@ public class UserNameActivity extends AppCompatActivity {
                 //replace Instructions activity with actual game frame
             }
         });
-
     }
     private boolean validateName(String name) {
-        return (name.length() > 0);
+        return (name.length() > 0) && !name.equals("default");
     }
 
 }
