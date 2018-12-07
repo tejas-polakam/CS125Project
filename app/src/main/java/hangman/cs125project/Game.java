@@ -38,11 +38,12 @@ import com.android.volley.toolbox.Volley;
 public class Game extends AppCompatActivity {
 
     private static final String TAG = "Main";
-    private static final String RANDOM_WORD_API_KEY = "0NP6KBEO";
+    private static final String RANDOM_WORD_API_KEY = "jecgaa";
 
     private static RequestQueue requestQueue;
 
-    private static List<String> words;
+    private List<String> words;
+    private String hiddenWord;
 
     MediaPlayer music;
     @Override
@@ -52,11 +53,18 @@ public class Game extends AppCompatActivity {
 
         requestQueue = Volley.newRequestQueue(this);
 
-        final String hiddenWord = setGameWord();
-        final TextView wordDisplay = findViewById(R.id.wordDisp);
+        hiddenWord = "hangman";
         final List<String> wrongGuesses = new ArrayList<>();
         final List<String> correctGuesses = new ArrayList<>();
-        wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
+        final TextView wordDisplay = findViewById(R.id.wordDisp);
+        getWordsFromAPI(RANDOM_WORD_API_KEY, 1, new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                hiddenWord = words.get(0);
+                wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
+            }
+        });
+
 
         //Find username from intent (see UserNameActivity)
         String username = "default";
@@ -144,19 +152,6 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    //function that picks a random word for the game
-    private String setGameWord() {
-        try {
-            words = new ArrayList<>();
-            getWords();
-            Log.d(TAG, words.toString());
-            return words.get(0);
-        } catch (Exception e) {
-            Log.d(TAG, "setGameWord() error: " + e.toString());
-            return "hangman";
-        }
-    }
-
     //function that turns a word into _ o r d
     private String getCurrentDisplayedWord(String word, List<String> correctGuesses) {
         String newWord = "";
@@ -188,7 +183,7 @@ public class Game extends AppCompatActivity {
 
     //function to get random words from the API
 
-    public static void getWordsFromAPI(String key, final int number) {
+    public void getWordsFromAPI(String key, final int number, final VolleyCallback callback) {
         String url = "https://random-word-api.herokuapp.com/word?key=" + key + "&number=" + number;
         try {
             JsonArrayRequest request = new JsonArrayRequest(url, new Response.Listener<JSONArray>() {
@@ -196,15 +191,17 @@ public class Game extends AppCompatActivity {
                 public void onResponse(JSONArray response) {
                     try {
                         for (int i = 0; i < response.length(); i++) {
-                            //words = new ArrayList<>();
+                            words = new ArrayList<>();
                             String w = response.get(i).toString();
                             words.add(w);
                             Log.d(TAG, "add word :" + w);
                         }
+                        callback.onSuccess();
                     } catch (JSONException e) {
-                        //words = new ArrayList<>();
+                        words = new ArrayList<>();
                         words.add("wrong API key");
-                        Log.d(TAG, "wrong api key" + e.toString());
+                        Log.d(TAG, "wrong api key " + e.toString());
+                        callback.onSuccess();
                     }
                 }
             }, new Response.ErrorListener() {
@@ -219,13 +216,47 @@ public class Game extends AppCompatActivity {
         }
     }
 
-    public static void getWords() {
+    /*
+    public void getWords() {
         Log.d(TAG, "trying to get some words");
-        getWordsFromAPI("jecgaa", 1);
+        getWordsFromAPI("jecgaa", 1, new VolleyCallback() {
+            @Override
+            public void onSuccess() {
+                return;
+            }
+        });
         int limit = 0;
-        while (words.get(0).equals("wrong API key") && limit < 1000) {
-            getWordsFromAPI(getNewAPIKey(), 1);
+        while (words.get(0).equals("wrong API key") && limit < 10) {
+            getWords();
             limit++;
+        }
+    }
+    */
+
+
+    //function that picks a random word for the game
+    private void setGameWord(String key) {
+        try {
+            getWordsFromAPI(key, 1, new VolleyCallback() {
+                @Override
+                public void onSuccess() {
+
+                }
+            });
+        } catch (Exception e) {
+            Log.d(TAG, "setGameWord() error: " + e.toString());
+        }
+    }
+
+    private String setGameWord() {
+        setGameWord(RANDOM_WORD_API_KEY);
+        while (words.get(0) != null && words.get(0).equals("wrong API key")) {
+            setGameWord(getNewAPIKey());
+        }
+        if (words.get(0) != null) {
+            return words.get(0);
+        } else {
+            return "hangman";
         }
     }
 

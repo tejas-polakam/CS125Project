@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true"
+    android:screenOrientation="portrait"
     tools:context=".Game">
 
     <TextView
