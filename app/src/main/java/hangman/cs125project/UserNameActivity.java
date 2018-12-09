@@ -1,6 +1,8 @@
 package hangman.cs125project;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +17,7 @@ public class UserNameActivity extends AppCompatActivity {
     //List<String> list;
     int count;
     private static final String TAG = "Main";
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +40,7 @@ public class UserNameActivity extends AppCompatActivity {
                     //pass the name on to the next class
                     Intent game = new Intent(UserNameActivity.this, Game.class);
                     game.putExtra("currentUsername", name);
+
                     startActivity(game);
                 } else {
                     TextView error = findViewById(R.id.errormsg);
