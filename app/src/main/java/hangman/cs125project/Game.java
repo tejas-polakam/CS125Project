@@ -2,6 +2,9 @@ package hangman.cs125project;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.media.MediaPlayer;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +33,7 @@ import java.net.URL;
 import java.util.List;
 import java.util.ArrayList;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -42,11 +47,13 @@ public class Game extends AppCompatActivity {
 
     public static final String TAG = "Main";
     private static final String RANDOM_WORD_API_KEY = "jecgaa";
+    public static final String PACKAGE_NAME = "hangman.cs125project";
 
     private static RequestQueue requestQueue;
 
     private List<String> words;
     private String hiddenWord;
+    private int numWrongGuesses = 0;
     SharedPreferences prefs;
     SharedPreferences.Editor editor;
     User user;
@@ -63,6 +70,7 @@ public class Game extends AppCompatActivity {
         final List<String> wrongGuesses = new ArrayList<>();
         final List<String> correctGuesses = new ArrayList<>();
         final TextView wordDisplay = findViewById(R.id.wordDisp);
+        final ImageView image = findViewById(R.id.animation_goes_here);
         getWordsFromAPI(RANDOM_WORD_API_KEY, 1, new VolleyCallback() {
             @Override
             public void onSuccess() {
@@ -70,6 +78,17 @@ public class Game extends AppCompatActivity {
                 wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
             }
         });
+        //Redo if word has dashes
+        if (hiddenWord.contains("-")) {
+            getWordsFromAPI(RANDOM_WORD_API_KEY, 1, new VolleyCallback() {
+                @Override
+                public void onSuccess() {
+                    hiddenWord = words.get(0);
+                    wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
+                }
+            });
+        }
+        wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
 
         //Find username from intent (see UserNameActivity)
         String username = "default";
@@ -90,7 +109,7 @@ public class Game extends AppCompatActivity {
             editor.putString(username, user.submitUserInfo());
             editor.commit();
             Log.d(TAG, "new user " + username);
-            Log.d(TAG, getUser(username).toString());
+            Log.d(TAG, getUser(username).submitUserInfo());
         }
 
         //Operations when user tries to guess the whole word.
@@ -106,9 +125,19 @@ public class Game extends AppCompatActivity {
                     error.setText("Word must not be empty or contain spaces");
                 } else if (!word.equals(hiddenWord)) {
                     error.setText("Wrong! Guess again?");
+                    numWrongGuesses++;
+                    setImage(image, numWrongGuesses);
                 } else {
                     error.setText("");
                     //Place operations to do in case of a win here.
+                    //TODO: add activity or fragment that activates on a win
+                    if (findWinState(10, hiddenWord, 5, correctGuesses) == 1) {
+                        user.addToScore(hiddenWord.length());
+                        Log.d(TAG, user.getUsername() + " gained some points");
+                        editor = prefs.edit();
+                        editor.putString(user.getUsername(), user.submitUserInfo());
+                        editor.commit();
+                    }
                 }
             }
         });
@@ -128,6 +157,8 @@ public class Game extends AppCompatActivity {
                     errorTxt.setText("Sorry! The word doesn't have that letter.");
                     wrongGuesses.add(letter);
                     wrongLetters.setText(wrongGuesses.toString());
+                    numWrongGuesses++;
+                    setImage(image, numWrongGuesses);
                 } else if (wrongGuesses.contains(letter)) {
                     errorTxt.setText("You already tried letter " + letter + ".");
                 } else if (correctGuesses.contains(letter)) {
@@ -137,8 +168,9 @@ public class Game extends AppCompatActivity {
                     correctGuesses.add(letter);
                     wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
                 }
+                //TODO: add activity/fragment that activates upon a win
                 if (findWinState(10, hiddenWord, 5, correctGuesses) == 1) {
-                    user.addToScore(1);
+                    user.addToScore(hiddenWord.length());
                     Log.d(TAG, user.getUsername() + " gained some points");
                     editor = prefs.edit();
                     editor.putString(user.getUsername(), user.submitUserInfo());
@@ -237,37 +269,38 @@ public class Game extends AppCompatActivity {
                     Log.w(TAG, error.toString());
                 }
             });
+            request.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(request);
         } catch (Exception other) {
             other.printStackTrace();
         }
     }
 
-    //function that picks a random word for the game
-    private void setGameWord(String key) {
-        try {
-            getWordsFromAPI(key, 1, new VolleyCallback() {
-                @Override
-                public void onSuccess() {
+//    //function that picks a random word for the game
+//    private void setGameWord(String key) {
+//        try {
+//            getWordsFromAPI(key, 1, new VolleyCallback() {
+//                @Override
+//                public void onSuccess() {
+//
+//                }
+//            });
+//        } catch (Exception e) {
+//            Log.d(TAG, "setGameWord() error: " + e.toString());
+//        }
+//    }
 
-                }
-            });
-        } catch (Exception e) {
-            Log.d(TAG, "setGameWord() error: " + e.toString());
-        }
-    }
-
-    private String setGameWord() {
-        setGameWord(RANDOM_WORD_API_KEY);
-        while (words.get(0) != null && words.get(0).equals("wrong API key")) {
-            setGameWord(getNewAPIKey());
-        }
-        if (words.get(0) != null) {
-            return words.get(0);
-        } else {
-            return "hangman";
-        }
-    }
+//    private String setGameWord() {
+//        setGameWord(RANDOM_WORD_API_KEY);
+//        while (words.get(0) != null && words.get(0).equals("wrong API key")) {
+//            setGameWord(getNewAPIKey());
+//        }
+//        if (words.get(0) != null) {
+//            return words.get(0);
+//        } else {
+//            return "hangman";
+//        }
+//    }
 
     //TODO: add logic to detect a win/loss, add logic to change image
     //Detect the state of the game.
@@ -297,5 +330,17 @@ public class Game extends AppCompatActivity {
             Log.d(TAG, e.toString());
             return null;
         }
+    }
+
+    //Updates the image at the top of the screen.
+    private void setImage(ImageView view, int wrongGuesses) {
+        Resources res = getResources();
+        int resourceId;
+        if (wrongGuesses < 9) {
+            resourceId = res.getIdentifier("hangman_" + wrongGuesses, "drawable", getPackageName());
+        } else {
+            resourceId = res.getIdentifier("hangman_lost", "drawable", getPackageName());
+        }
+        view.setImageResource(resourceId);
     }
 }

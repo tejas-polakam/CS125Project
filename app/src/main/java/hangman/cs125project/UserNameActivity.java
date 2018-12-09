@@ -58,8 +58,9 @@ public class UserNameActivity extends AppCompatActivity {
             }
         });
     }
+    //TODO make this function take a TextView as a parameter and change it if the username is invalid
     private boolean validateName(String name) {
-        return (name.length() > 0) && !name.equals("default");
+        return (name.length() > 0) && !name.equals("default") && name.length() < 40;
     }
 
 }
