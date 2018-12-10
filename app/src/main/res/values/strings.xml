@@ -116,4 +116,13 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_start_page">StartPage</string>
     <string name="title_activity_movietest">movietest</string>
+    <string name="instructions">Welcome To HangMan!! \n
+            The instructions are very simple. First create a username less than 40 characters long.
+        This ensures that your score will be saved in each time the app is run. \n
+        </string>
+    <string name="instructions2">To guess a letter, select a letter from the dropdown menu and press “Letter” to place it on
+        the block if it exists. To guess an entire word, type it in the “Guess a Word” box and press
+        “Word”. If you correctly guess all letters or the entire word before your guesses run out, you increase your score by the length of the word.
+        Play more to score more!\n
+        Good Luck and Have Fun!</string>
 </resources>

@@ -131,13 +131,11 @@ public class Game extends AppCompatActivity {
                     error.setText("");
                     //Place operations to do in case of a win here.
                     //TODO: add activity or fragment that activates on a win
-                    if (findWinState(10, hiddenWord, 5, correctGuesses) == 1) {
-                        user.addToScore(hiddenWord.length());
-                        Log.d(TAG, user.getUsername() + " gained some points");
-                        editor = prefs.edit();
-                        editor.putString(user.getUsername(), user.submitUserInfo());
-                        editor.commit();
-                    }
+                    user.addToScore(hiddenWord.length());
+                    Log.d(TAG, user.getUsername() + " gained some points");
+                    editor = prefs.edit();
+                    editor.putString(user.getUsername(), user.submitUserInfo());
+                    editor.commit();
                 }
             }
         });
@@ -169,7 +167,7 @@ public class Game extends AppCompatActivity {
                     wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
                 }
                 //TODO: add activity/fragment that activates upon a win
-                if (findWinState(10, hiddenWord, 5, correctGuesses) == 1) {
+                if (findWinState(10, hiddenWord, numWrongGuesses, correctGuesses) == 1) {
                     user.addToScore(hiddenWord.length());
                     Log.d(TAG, user.getUsername() + " gained some points");
                     editor = prefs.edit();
