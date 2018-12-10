@@ -1,15 +1,26 @@
 package hangman.cs125project;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import org.json.JSONObject;
+
+import java.util.Comparator;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Map;
 
+@TargetApi(28)
 public class ScrollingScoreBoard extends AppCompatActivity {
 
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,13 +44,54 @@ public class ScrollingScoreBoard extends AppCompatActivity {
         List<String> users = new ArrayList<>();
 
         //placeholder code
-        users.add("1. Geoff - 125");
-        users.add("2. Chuchu - 101");
-        users.add("3. Xyz - 100");
-        for (int i = 4; i <= 100; i++) {
-            users.add(i + ".");
-        }
 
+        List<String> usernames = new ArrayList<>();
+        prefs = getSharedPreferences(User.PREFERENCES_NAME, Context.MODE_PRIVATE);
+        Map<String, ?> keys = prefs.getAll();
+        for (Map.Entry<String, ?> entry : keys.entrySet()) {
+            usernames.add(entry.getKey());
+        }
+        List<User> userList = new ArrayList<>();
+        for (String user : usernames) {
+            userList.add(getUser(user));
+        }
+        userList.sort(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                try {
+                    if (o1.getScore() < o2.getScore()) {
+                        return 1;
+                    } else if (o1.getScore() > o2.getScore()) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                } catch (Exception e) {
+                    Log.d(Game.TAG, e.toString());
+                    throw new IllegalArgumentException();
+                }
+            }
+        });
+        int i = 1;
+        for (User user : userList) {
+            users.add(i + ". " + user.getUsername() + " - " + user.getScore());
+            i++;
+        }
         return users;
+    }
+
+    public User getUser(String name) {
+        String userData = prefs.getString(name, null);
+        if (userData == null) {
+            Log.d(Game.TAG, "unable to find user");
+            Toast.makeText(this, "user " + name + " not found.", Toast.LENGTH_LONG).show();
+            return null;
+        }
+        try {
+            return new User(new JSONObject(userData));
+        } catch (Exception e) {
+            Log.d(Game.TAG, e.toString());
+            return null;
+        }
     }
 }

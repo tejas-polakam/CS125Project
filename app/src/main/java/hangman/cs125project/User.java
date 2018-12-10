@@ -5,7 +5,7 @@ import android.util.Log;
 
 import org.json.*;
 
-public class User {
+public class User implements Comparable<User> {
     String username;
     private int score;
     SharedPreferences prefs;
@@ -59,4 +59,21 @@ public class User {
     public String submitUserInfo() {
         return userAsJSON().toString();
     }
+
+    //Implement Comparable to make scoreboard sorting easier.
+    public int compareTo(User other) {
+        try {
+            if (this.score < other.getScore()) {
+                return -1;
+            } else if (this.score > other.getScore()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        } catch (Exception e) {
+            Log.d(Game.TAG, e.toString());
+            throw new IllegalArgumentException();
+        }
+    }
+
 }
