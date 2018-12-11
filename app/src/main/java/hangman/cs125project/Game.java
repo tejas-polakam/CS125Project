@@ -122,7 +122,7 @@ public class Game extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 EditText wordField = findViewById(R.id.wordInput);
-                String word = wordField.getText().toString();
+                String word = wordField.getText().toString().toLowerCase();
                 Log.d(TAG, "user guessed: " + word);
                 TextView error = findViewById(R.id.Errortext);
                 if (word.contains(" ") || word.length() == 0) {
@@ -332,11 +332,13 @@ public class Game extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
         if (won) {
-            alertDialogBuilder.setMessage(R.string.wintext);
+            String foo = getString(R.string.wintext) + "\n" + hiddenWord.length() + " points were added to your score.";
+            alertDialogBuilder.setMessage(foo);
         } else {
             String foo = getString(R.string.losstext) + " " + hiddenWord;
             alertDialogBuilder.setMessage(foo);
         }
+
 
         alertDialogBuilder.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
             @Override
@@ -354,7 +356,14 @@ public class Game extends AppCompatActivity {
             }
         });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                alertDialog.dismiss();
+                startActivity(new Intent(Game.this, HomePage.class));
+            }
+        });
         alertDialog.show();
     }
 }
