@@ -13,8 +13,7 @@ import java.util.*;
 public class UserNameActivity extends AppCompatActivity {
     EditText nameInput;
     String name;
-    //ListView display;
-    //List<String> list;
+
     int count;
     private static final String TAG = "Main";
     SharedPreferences prefs;
@@ -25,8 +24,7 @@ public class UserNameActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.userNameInput);
         final Button submitUsername = findViewById(R.id.submit);
         final Button backButton = findViewById(R.id.backButtonUser);
-        //final ListView
-        //list = new ArrayList<>();
+
         submitUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -34,8 +32,6 @@ public class UserNameActivity extends AppCompatActivity {
                 name = nameInput.getText().toString();
                 if (validateName(name)) {
                     Log.d(TAG, "new username " + name);
-
-                    //figure out shared preferences api
 
                     //pass the name on to the next class
                     Intent game = new Intent(UserNameActivity.this, Game.class);
@@ -51,14 +47,12 @@ public class UserNameActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //insert code here to store username in a list
-
                 startActivity(new Intent(UserNameActivity.this, HomePage.class));
-                //replace Instructions activity with actual game frame
             }
         });
     }
-    //TODO make this function take a TextView as a parameter and change it if the username is invalid
+
+    //Check to make sure the username is valid.
     private boolean validateName(String name) {
         return (name.length() > 0) && !name.equals("default") && name.length() < 40;
     }

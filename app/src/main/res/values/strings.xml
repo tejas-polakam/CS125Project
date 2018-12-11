@@ -125,4 +125,9 @@
         “Word”. If you correctly guess all letters or the entire word before your guesses run out, you increase your score by the length of the word.
         Play more to score more!\n
         Good Luck and Have Fun!</string>
+    <string name="wintext">Congratulations!\n
+                            YOU WON!\n</string>
+    <string name="losstext">Oh no! \n
+                You made too many wrong guesses! \n
+                The word was:</string>
 </resources>

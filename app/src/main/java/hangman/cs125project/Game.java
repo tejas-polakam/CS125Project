@@ -1,6 +1,9 @@
 package hangman.cs125project;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -48,6 +51,7 @@ public class Game extends AppCompatActivity {
     public static final String TAG = "Main";
     private static final String RANDOM_WORD_API_KEY = "jecgaa";
     public static final String PACKAGE_NAME = "hangman.cs125project";
+    private static final int MAX_WRONG_GUESSES = 8;
 
     private static RequestQueue requestQueue;
 
@@ -127,15 +131,19 @@ public class Game extends AppCompatActivity {
                     error.setText("Wrong! Guess again?");
                     numWrongGuesses++;
                     setImage(image, numWrongGuesses);
+                    int gameState = findWinState(MAX_WRONG_GUESSES, hiddenWord, numWrongGuesses, correctGuesses);
+                    if (gameState == -1) {
+                        displayEndGame(false);
+                    }
                 } else {
                     error.setText("");
-                    //Place operations to do in case of a win here.
-                    //TODO: add activity or fragment that activates on a win
+                    //operations to do in case of a win here.
                     user.addToScore(hiddenWord.length());
                     Log.d(TAG, user.getUsername() + " gained some points");
                     editor = prefs.edit();
                     editor.putString(user.getUsername(), user.submitUserInfo());
                     editor.commit();
+                    displayEndGame(true);
                 }
             }
         });
@@ -166,13 +174,17 @@ public class Game extends AppCompatActivity {
                     correctGuesses.add(letter);
                     wordDisplay.setText(getCurrentDisplayedWord(hiddenWord, correctGuesses));
                 }
-                //TODO: add activity/fragment that activates upon a win
-                if (findWinState(10, hiddenWord, numWrongGuesses, correctGuesses) == 1) {
+
+                int gameState = findWinState(MAX_WRONG_GUESSES, hiddenWord, numWrongGuesses, correctGuesses);
+                if (gameState == 1) {
                     user.addToScore(hiddenWord.length());
                     Log.d(TAG, user.getUsername() + " gained some points");
                     editor = prefs.edit();
                     editor.putString(user.getUsername(), user.submitUserInfo());
                     editor.commit();
+                    displayEndGame(true);
+                } else if (gameState == -1) {
+                    displayEndGame(false);
                 }
             }
         });
@@ -274,33 +286,6 @@ public class Game extends AppCompatActivity {
         }
     }
 
-//    //function that picks a random word for the game
-//    private void setGameWord(String key) {
-//        try {
-//            getWordsFromAPI(key, 1, new VolleyCallback() {
-//                @Override
-//                public void onSuccess() {
-//
-//                }
-//            });
-//        } catch (Exception e) {
-//            Log.d(TAG, "setGameWord() error: " + e.toString());
-//        }
-//    }
-
-//    private String setGameWord() {
-//        setGameWord(RANDOM_WORD_API_KEY);
-//        while (words.get(0) != null && words.get(0).equals("wrong API key")) {
-//            setGameWord(getNewAPIKey());
-//        }
-//        if (words.get(0) != null) {
-//            return words.get(0);
-//        } else {
-//            return "hangman";
-//        }
-//    }
-
-    //TODO: add logic to detect a win/loss, add logic to change image
     //Detect the state of the game.
     //return -1 for loss, 0 for game not ended, and 1 for game won.
     private int findWinState(int lossThreshold, String hiddenWord,
@@ -340,5 +325,36 @@ public class Game extends AppCompatActivity {
             resourceId = res.getIdentifier("hangman_lost", "drawable", getPackageName());
         }
         view.setImageResource(resourceId);
+    }
+
+    //Displays a message for when the user wins or loses
+    private void displayEndGame(boolean won) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        if (won) {
+            alertDialogBuilder.setMessage(R.string.wintext);
+        } else {
+            String foo = getString(R.string.losstext) + " " + hiddenWord;
+            alertDialogBuilder.setMessage(foo);
+        }
+
+        alertDialogBuilder.setPositiveButton("New Game", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface arg0, int arg1) {
+                Intent intent = new Intent(Game.this, Game.class);
+                intent.putExtra("currentUsername", user.getUsername());
+                startActivity(intent);
+            }
+        });
+
+        alertDialogBuilder.setNegativeButton("Back to Menu", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(Game.this, HomePage.class));
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 }
